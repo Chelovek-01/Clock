@@ -1,0 +1,125 @@
+html {
+    display: grid;
+    height: 100%;
+}
+
+body {
+    padding-block-start: 2em; 
+}
+
+.clock {
+    --ow: clamp(5rem, 60vw, 40rem);
+    --w: 88cqi;
+    --r: calc(var(--w) / 2 * 0.8);
+    --sz: 12cqi;
+
+    background: #222;
+    block-size: var(--ow);
+    border-radius: 24%;
+    container-type: inline-size;
+    display: grid;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    inline-size: var(--ow);
+    margin-inline: auto;
+    place-content: center;
+}
+
+.clock-face {
+    aspect-ratio: 1;
+    background: #FFF;
+    border-radius: 50%;
+    block-size: var(--w);
+    font-size: 6cqi;
+    font-weight: 700;
+    list-style-type: none;
+    padding: unset;
+    position: relative;
+}
+
+.clock-face time {
+    --x: calc(var(--r) * cos(var(--d)));
+    --y: calc(var(--r) * sin(var(--d)));
+    position: absolute;
+    left: calc(50% + var(--x));
+    top: calc(50% + var(--y));
+    transform: translate(-50%, -50%);
+    height: var(--sz);
+    width: var(--sz);
+    display: grid;
+    place-content: center;
+}
+
+.clock time:nth-child(1) {--d: 270deg}
+.clock time:nth-child(2) {--d: 300deg}
+.clock time:nth-child(3) {--d: 330deg}
+.clock time:nth-child(4) {--d: 0deg}
+.clock time:nth-child(5) {--d: 30deg}
+.clock time:nth-child(6) {--d: 60deg}
+.clock time:nth-child(7) {--d: 90deg}
+.clock time:nth-child(8) {--d: 120deg}
+.clock time:nth-child(9) {--d: 150deg}
+.clock time:nth-child(10) {--d: 180deg}
+.clock time:nth-child(11) {--d: 210deg}
+.clock time:nth-child(12) {--d: 240deg}
+
+.arm {
+    background-color: var(--abg);
+    border-radius: calc(var(--aw) * 2);
+    display: block;
+    height: var(--ah);
+    left: calc((var(--w) - var(--aw)) / 2);
+    position: absolute;
+    top: calc((var(--w) / 2) - var(--ah));
+    transform: rotate(0deg);
+    transform-origin: bottom;
+    width: var(--aw);
+}
+
+.seconds {
+    --abg: rgb(255, 140, 5);
+    --ah: 40cqi;
+    --aw: 1cqi;
+    transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.minutes {
+    --abg: #333;
+    --ah: 35cqi;
+    --aw: 2.5cqi;
+    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hours {
+    --abg: #333;
+    --ah: 30cqi;
+    --aw: 2.5cqi;
+    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.hours::before {
+    content: '';
+    background-color: #fff;
+    border: 1cqi solid #333;
+    border-radius: 50%;
+    display: block;
+    height: 4cqi;
+    width: 4cqi;
+    position: absolute;
+    left: -1.75cqi;
+    bottom: -3cqi;
+}
+
+@keyframes turn {
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+@supports not (left: calc(1px * cos(45deg))) {
+    time {
+        left: 50%!important;
+        top: 50%!important;
+        transform: translate(-50%, -50%) rotate(var(--d)) translate(var(--r)) rotate(calc(-1 * var(--d)));
+    }
+}
